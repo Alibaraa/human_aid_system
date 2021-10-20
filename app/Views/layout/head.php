@@ -1,6 +1,6 @@
 <!-- <base href=""> -->
 <meta charset="utf-8" />
-<title>منظومة إدارة شؤون مجلس الوزراء - <?= (isset($pageTitle)) ? $pageTitle : "" ?></title>
+<title>وزارة التنمية الإجتماعية - <?= (isset($pageTitle)) ? $pageTitle : "" ?></title>
 <meta name="description" content="Page with empty content" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
