@@ -125,3 +125,19 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+
+
+# Dependency folder (MUST be ignored)
+/vendor/
+
+# CodeIgniter writable/ temporary files
+/writable/cache/
+/writable/logs/
+/writable/session/
+
+# Environment files containing sensitive data
+.env
+
+# IDE and OS files
+.DS_Store
+Thumbs.db
