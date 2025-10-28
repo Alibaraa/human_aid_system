@@ -1,10 +1,17 @@
+<?php
+$router = service('router');
+$controller  = explode("\\", $router->controllerName());
+$controller_menu_name = end($controller);
+$method_menu_name = $router->methodName();
+?>
+
 <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
     <!--begin::Brand-->
     <div class="brand flex-column-auto " id="kt_brand">
         <!--begin::Logo-->
-        <a href="<?= site_url('') ?>" class="brand-logo">
+        <!-- <a href="<?= site_url('') ?>" class="brand-logo">
             <img alt="Logo" src="<?php echo base_url("assets/media/logos/sidebarlogo.png") ?>" />
-        </a>
+        </a> -->
         <!--end::Logo-->
 
         <!--begin::Toggle-->
@@ -30,12 +37,291 @@
             <!--begin::Menu Nav-->
             <ul class="menu-nav ">
                 <li class="menu-item menu-item-open menu-item-here" aria-haspopup="true">
-                    <a href="<?php echo site_url('/'); ?>" class="menu-link ">
+                    <a href="<?php echo site_url(''); ?>" class="menu-link ">
                         <i class="menu-icon flaticon-home">
                         </i><span class="menu-text">الصفحة الرئيسية</span></a>
                 </li>
-                <? // RenderMenu(); ?>
 
+              
+
+                <?php if($_SESSION['userData']['permissions'] == 3){ ?>
+                <li class="menu-item menu-item-open menu-item-here" aria-haspopup="true">
+                    <a href="<?php echo site_url('personBlock/show'); ?>" class="menu-link ">
+                        <i class="menu-icon flaticon-home">
+                        </i><span class="menu-text">إدارة المستفيدين للمندوبين</span></a>
+                </li>
+                <li class="menu-item menu-item-open menu-item-here" aria-haspopup="true">
+                    <a href="<?php echo site_url('personBlock/add'); ?>" class="menu-link ">
+                        <i class="menu-icon flaticon-home">
+                        </i><span class="menu-text"> إضافة مستفيد</span></a>
+                </li>
+                <?php } ?>
+                <?php if($_SESSION['userData']['permissions'] == 1 || $_SESSION['userData']['permissions'] == 2){ ?>
+                <li class="menu-item menu-item-open menu-item-here" aria-haspopup="true">
+                    <a href="<?php echo site_url('User/show'); ?>" class="menu-link ">
+                        <i class="menu-icon flaticon-home">
+                        </i><span class="menu-text">التحكم بالمستخدمين </span></a>
+                </li>
+
+                <li class="menu-item menu-item-submenu <?php if ($controller_menu_name == 'Person') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">إدارة المستفيدين</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php if ($controller_menu_name != 'Person') { ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                                <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'add' && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/add'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">إدخال مستفيدين</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'index' && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/data/search'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">بحث بالمستفيدين</span>
+                                    </a>
+                                </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'show_delete' && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/person/show/delete'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">مستفيدين قيد الانتظار</span>
+                                </a>
+                            </li>
+                                <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'index' && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/show'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">إدارة المستفيدين</span>
+                                    </a>
+                                </li>
+                                
+                                <li class="menu-item menu-item-submenu <?php if (($method_menu_name == 'uploadFile' || $method_menu_name == 'uploadCsv') && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/upload/file'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">تحمل ملف xlsx للاسر </span>
+                                    </a>
+                                </li>
+                                <li class="menu-item menu-item-submenu <?php if (($method_menu_name == 'uploadFile_block' || $method_menu_name == 'uploadCsv_block') && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/upload/file/block'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">  تحميل ملف اكسل بدون مندوب  </span>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item menu-item-submenu <?php if (($method_menu_name == 'uploadFileBlock' || $method_menu_name == 'uploadCsvBlock') && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/upload/file/Block'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">حظر المستفيدين xlsx </span>
+                                    </a>
+                                </li>
+                                <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'chieckIds' && $controller_menu_name == 'Person') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                    <a href="<?php echo site_url('/person/check'); ?>" class="menu-link menu-toggle">
+                                        <i class="menu-bullet menu-bullet-dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="menu-text">فحص ارقام الهوايا </span>
+                                    </a>
+                                </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+
+
+                <li class="menu-item menu-item-submenu <?php  if ($controller_menu_name == 'AdisManageControler') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">إدارة المساعدات</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php  if ($controller_menu_name != 'AdisManageControler') { ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'index' && $controller_menu_name == 'AdisManageControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/AdisManage/show'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text"> عرض الكابونات</span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'addCobon' && $controller_menu_name == 'AdisManageControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/AdisManage/addCobon'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">إضافة كوبون </span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+
+
+                <li class="menu-item menu-item-submenu <?php  if ($controller_menu_name == 'AreaManagerControler') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">المناطق</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php  if ($controller_menu_name != 'AreaManagerControler') { ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'show' && $controller_menu_name == 'AreaManagerControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/AreaManager/show'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text"> عرض المناطق</span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'add' && $controller_menu_name == 'AreaManagerControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/AreaManager/add'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">إضافة منطقة </span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="menu-item menu-item-submenu <?php  if ($controller_menu_name == 'blockControler') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">المندوبين</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php  if ($controller_menu_name != 'blockControler') { ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'show' && $controller_menu_name == 'blockControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/block/show'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text"> عرض المندوبين</span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'add' && $controller_menu_name == 'blockControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/block/add'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">إضافة مندوب </span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+
+                <li class="menu-item menu-item-submenu <?php if ($controller_menu_name == 'exportControler') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">احصائيات </span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php if ($controller_menu_name != 'exportControler') { ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'filter' && $controller_menu_name == 'exportControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/export/filter/pid/data'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">فلترة الهوايا </span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'general_report' && $controller_menu_name == 'exportControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/export/filter/generalReport'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">تقرير المستفيدين</span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if ($method_menu_name == 'daly_report' && $controller_menu_name == 'exportControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('export/filter/daly/report'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">الاحصائية اليومية</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+
+                <?php if($_SESSION['userData']['permissions'] == 1){?>
+                <li class="menu-item menu-item-submenu <?php  if ($controller_menu_name == 'constantsControler') { ?>menu-item-open menu-item-here<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <i class="fas fa-database"></i>
+                            </span>
+                        <span class="menu-text">الثوابت</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu" <?php  if ($controller_menu_name == 'constantsControler' ) {}else{ ?>style="display: none; overflow: hidden;" <?php } ?> kt-hidden-height="160">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+                            <li class="menu-item menu-item-submenu <?php if (($method_menu_name == 'showAids' || $method_menu_name == 'editAids' || $method_menu_name == 'updateAids' || $method_menu_name == 'addAids' || $method_menu_name == 'insertAids' ) && $controller_menu_name == 'constantsControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/constants/show/Aids'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text"> عرض نوع المساعدة</span>
+                                </a>
+                            </li>
+                            <li class="menu-item menu-item-submenu <?php if (($method_menu_name == 'showDonation' || $method_menu_name == 'editDonation' || $method_menu_name == 'updateDonation' || $method_menu_name == 'addAids' || $method_menu_name == 'insertDonation') && $controller_menu_name == 'constantsControler') { ?>menu-item-active<?php } ?>" aria-haspopup="true" data-menu-toggle="hover">
+                                <a href="<?php echo site_url('/constants/show/Donation'); ?>" class="menu-link menu-toggle">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">عرض الجهات المانحة</span>
+                                </a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+
+                <?php } ?>
+                <?php } ?>
             </ul>
             <!--end::Menu Nav-->
         </div>

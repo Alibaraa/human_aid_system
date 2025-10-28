@@ -13,11 +13,7 @@ class BaseModel extends Model
     public $dbo;
     public function __construct(?ConnectionInterface &$db = null, ?ValidationInterface $validation = null)
     {
-        $this->dbo = oci_pconnect('', '', '', 'AL32UTF8');
-        if (!$this->dbo) {
-            throw new Exception('error in connection odb.');
-            exit;
-        }
+        
         parent::__construct($validation);
     }
     protected function afterInsert(array $data)

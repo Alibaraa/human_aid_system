@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://localhost:8080/appstarter/public/';
+    public $baseURL = 'http://Ali/fajer/public/';
 
     /**
      * --------------------------------------------------------------------------

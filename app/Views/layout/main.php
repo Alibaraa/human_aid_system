@@ -34,9 +34,9 @@
                             <!--begin::Header Menu-->
                             <div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-default ">
                                 <!--begin::Header Nav-->
-                                <ul class="menu-nav d-flex align-items-center">
-                                    <span class="text-muted">وزارة التنمية الاجتماعية - البرنامج الشامل</span>
-                                </ul>
+                                <!-- <ul class="menu-nav d-flex align-items-center">
+                                    <span class="text-muted">جمعية الفجر الشبابي الفلسطيني  - برنامج تسجيل المساعدات</span>
+                                </ul> -->
                                 <!--end::Header Nav-->
                             </div>
                             <!--end::Header Menu-->
@@ -198,7 +198,7 @@
                                         </span>
                                     </span>
                                     <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">مرحباً ، </span>
-                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"> mohmmed alagha<? // $_SESSION["user_NAME"] ?></span>
+                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3"> <?php print_r($_SESSION['userData']['name']); ?></span>
 
                                 </div>
                             </div>
@@ -227,40 +227,7 @@
                                     <!--end::Mobile Toggle-->
 
 
-                                    <!--begin::Page Heading-->
-                                    <div class="d-flex align-items-baseline flex-wrap mr-5">
-                                        <!--begin::Page Title-->
-                                        <h5 class="text-dark font-weight-bold my-1 mr-5 titleHasSpans">
 
-                                            test 1<?// (isset($pageTitle)) ? $pageTitle : "" ?>test 2<? // (isset($HeaderTocDate)) ? $HeaderTocDate : "" ?>test3<? //(isset($HeaderTotalItems)) ? $HeaderTotalItems : "" ?>
-                                        </h5>
-                                        <!--end::Page Title-->
-
-                                        <!--begin::Breadcrumb-->
-                                        <ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-                                            <?php // if (isset($breadcrumb)) : ?>
-                                                <?php //foreach ($breadcrumb as $value) { ?>
-                                                    <li class="breadcrumb-item">
-                                                        <a href="#" class="text-muted">
-                                                            test<?// $value["Text"] ?>
-                                                        </a>
-                                                    </li>
-                                            <li class="breadcrumb-item">
-                                                <a href="#" class="text-muted">
-                                                    test<?// $value["Text"] ?>
-                                                </a>
-                                            </li>
-                                            <li class="breadcrumb-item">
-                                                <a href="#" class="text-muted">
-                                                    test<?// $value["Text"] ?>
-                                                </a>
-                                            </li>
-                                                <?php // } ?>
-                                            <?php // endif ?>
-                                        </ul>
-                                        <!--end::Breadcrumb-->
-                                    </div>
-                                    <!--end::Page Heading-->
                                 </div>
                                 <!--end::Info-->
 
@@ -322,13 +289,13 @@
                 </div>
                 <div class="d-flex flex-column">
                     <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                        mohmmed alagha<? // $_SESSION["user_NAME"]; ?>
+                        <?php print_r($_SESSION['userData']['name']); ?>
                     </a>
                     <!-- <div class="text-muted mt-1">
                         Application Developer
                     </div> -->
                     <div class="navi mt-2">
-                        <a href="#" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">تسجيل خروج</a>
+                        <a href="<?php echo base_url('logout');?>" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">تسجيل خروج</a>
                     </div>
                 </div>
             </div>
@@ -340,28 +307,47 @@
             <!--begin::Nav-->
             <div class="navi navi-spacer-x-0 p-0">
 					<!--begin::Item-->
-					<a href="<?php echo base_url('/profile/edite/');?>" class="navi-item">
+					<a href="#" class="navi-item">
 						<div class="navi-link">
-							<div class="symbol symbol-40 bg-light mr-3">
-								<div class="symbol-label">
-									<span class="svg-icon svg-icon-md svg-icon-success">
-										<!--begin::Svg Icon | path:/metronic/theme/html/demo13/dist/assets/media/svg/icons/General/Notification2.svg-->
-										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-											<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-												<rect x="0" y="0" width="24" height="24"></rect>
-												<path d="M13.2070325,4 C13.0721672,4.47683179 13,4.97998812 13,5.5 C13,8.53756612 15.4624339,11 18.5,11 C19.0200119,11 19.5231682,10.9278328 20,10.7929675 L20,17 C20,18.6568542 18.6568542,20 17,20 L7,20 C5.34314575,20 4,18.6568542 4,17 L4,7 C4,5.34314575 5.34314575,4 7,4 L13.2070325,4 Z" fill="#000000"></path>
-												<circle fill="#000000" opacity="0.3" cx="18.5" cy="5.5" r="2.5"></circle>
-											</g>
-										</svg>
-										<!--end::Svg Icon-->
-									</span>
-								</div>
-							</div>
+
 							<div class="navi-text">
-								<div class="font-weight-bold">ملفي الشخصي</div>
-								<div class="text-muted"> تعديل معلومات الملف الشخصي وطرق التواصل
-								<span class="label label-light-danger label-inline font-weight-bold">تعديل</span></div>
-							</div>
+								<div class="font-weight-bold"> تغيير كلمة المرور</div>
+
+                                <form method="POST" action="<?= site_url('change-password'); ?>" accept-charset="UTF-8"
+                                      onsubmit="changePassword.disabled = true; return true;">
+                                    <?= csrf_field() ?>
+                                    <div class="form-group row  cct-1">
+                                        <label class="col-form-label text-left col-lg-12 col-sm-12 lable_passward">كلمة المرور السابقة
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <input class="form-control" required type="password" minlength="5" name="password" value="" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row  cct-1">
+                                        <label class="col-form-label text-left col-lg-12 col-sm-12 lable_passward">كلمة المرور الجديدة
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <input class="form-control" required type="password" minlength="5" name="new_password" value="" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row  cct-1">
+                                        <label class="col-form-label text-left col-lg-12 col-sm-12 lable_passward">تكرار كلمة المرور الجديدة
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <input class="form-control" required type="password" minlength="5" name="new_password_confirm" value="" />
+                                        </div>
+                                    </div>
+
+                                    <p>
+                                        <button name="changePassword" class="btn btn-primary mr-2" type="submit"><?= lang('Auth.update') ?></button>
+                                    </p>
+                                </form>
+                            </div>
+
 						</div>
 					</a>
             </div>
