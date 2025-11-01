@@ -128,12 +128,12 @@ nb-configuration.xml
 
 
 # Dependency folder (MUST be ignored)
-/vendor/
+#/vendor/
 
 # CodeIgniter writable/ temporary files
-/writable/cache/
-/writable/logs/
-/writable/session/
+#/writable/cache/
+#/writable/logs/
+#/writable/session/
 
 # Environment files containing sensitive data
 .env

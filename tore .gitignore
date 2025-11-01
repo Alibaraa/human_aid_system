@@ -1,0 +1,43 @@
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex 631dc3c..d787d21 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -128,12 +128,12 @@[m [mnb-configuration.xml[m
+ [m
+ [m
+ # Dependency folder (MUST be ignored)[m
+[31m-/vendor/[m
+[32m+[m[32m#/vendor/[m
+ [m
+ # CodeIgniter writable/ temporary files[m
+[31m-/writable/cache/[m
+[31m-/writable/logs/[m
+[31m-/writable/session/[m
+[32m+[m[32m#/writable/cache/[m
+[32m+[m[32m#/writable/logs/[m
+[32m+[m[32m#/writable/session/[m
+ [m
+ # Environment files containing sensitive data[m
+ .env[m
+[1mdiff --git a/app/Config/App.php b/app/Config/App.php[m
+[1mindex b14165a..c0356c0 100644[m
+[1m--- a/app/Config/App.php[m
+[1m+++ b/app/Config/App.php[m
+[36m@@ -23,7 +23,7 @@[m [mclass App extends BaseConfig[m
+      *[m
+      * @var string[m
+      */[m
+[31m-    public $baseURL = 'http://Ali/fajer/public/';[m
+[32m+[m[32m    public $baseURL = '';[m
+ [m
+     /**[m
+      * --------------------------------------------------------------------------[m
+[36m@@ -36,7 +36,7 @@[m [mclass App extends BaseConfig[m
+      *[m
+      * @var string[m
+      */[m
+[31m-    public $indexPage = 'index.php';[m
+[32m+[m[32m    public $indexPage = '';[m
+ [m
+     /**[m
+      * --------------------------------------------------------------------------[m
