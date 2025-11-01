@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = '';
+    public $baseURL = 'https://human-aids-system-gh829.ondigitalocean.app/';
 
     /**
      * --------------------------------------------------------------------------
