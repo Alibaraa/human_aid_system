@@ -88,6 +88,13 @@ class Database extends Config
             'password' => env('database_default_password', ''),
             'database' => env('database_default_database', 'fajer'),
             'DBDriver' => env('database_default_DBDriver', 'MySQLi'),
+            'encrypt'   => [
+                'ssl_key'    => null, // يمكن أن تتجاهله
+                'ssl_cert'   => null, // يمكن أن تتجاهله
+                'ssl_ca'     => null, // يمكن أن تتجاهله
+                'ssl_verify' => false // عيّنها إلى FALSE إذا كنت لا تستخدم شهادة CA محددة
+            ],
+
             'DBPrefix' => env('database.default.DBPrefix', ''),
             'pConnect' => env('database.default.pConnect', false),
             'DBDebug'  => env('database.default.DBDebug', (ENVIRONMENT !== 'production')),
