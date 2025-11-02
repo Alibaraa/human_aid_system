@@ -83,11 +83,11 @@ class Database extends Config
         // Read database configuration from environment variables
         $this->default = [
             'DSN'      => env('database.default.DSN', ''),
-            'hostname' => env('database.default.hostname', 'localhost'),
-            'username' => env('database.default.username', 'root'),
-            'password' => env('database.default.password', ''),
-            'database' => env('database.default.database', 'fajer'),
-            'DBDriver' => env('database.default.DBDriver', 'MySQLi'),
+            'hostname' => env('database_default_hostname', 'localhost'),
+            'username' => env('database_default_username', 'root'),
+            'password' => env('database_default_password', ''),
+            'database' => env('database_default_database', 'fajer'),
+            'DBDriver' => env('database_default_DBDriver', 'MySQLi'),
             'DBPrefix' => env('database.default.DBPrefix', ''),
             'pConnect' => env('database.default.pConnect', false),
             'DBDebug'  => env('database.default.DBDebug', (ENVIRONMENT !== 'production')),
@@ -98,7 +98,7 @@ class Database extends Config
             'compress' => env('database.default.compress', false),
             'strictOn' => env('database.default.strictOn', false),
             'failover' => env('database.default.failover', []),
-            'port'     => (int) env('database.default.port', 3306),
+            'port'     => (int) env('database_default_port', 3306),
         ];
 
         $this->tests = [
