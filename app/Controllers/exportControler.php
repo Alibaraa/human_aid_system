@@ -272,7 +272,7 @@ class exportControler extends BaseController
             $chickes_moal = new AidManageModel();
 
             foreach ($constants as $cons){
-                $chickes = $chickes_moal->select("id")->where('aids_id = '.$cons['id'])->findAll();
+                $chickes = $chickes_moal->select("id")->where('aids_id', $cons['id'])->findAll();
                 $val = array();
                 if(!empty($chickes)){
                     foreach ($chickes as $chicke) {

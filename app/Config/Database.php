@@ -82,31 +82,38 @@ class Database extends Config
 
         // Read database configuration from environment variables
         $this->default = [
-            'DSN'      => env('database.default.DSN', ''),
-            'hostname' => env('database_default_hostname', 'localhost'),
-            'username' => env('database_default_username', 'root'),
-            'password' => env('database_default_password', ''),
-            'database' => env('database_default_database', 'fajer'),
-            'DBDriver' => env('database_default_DBDriver', 'MySQLi'),
-            'encrypt'   => [
-                'ssl_key'    => null, // يمكن أن تتجاهله
-                'ssl_cert'   => null, // يمكن أن تتجاهله
-                'ssl_ca'     => null, // يمكن أن تتجاهله
-                'ssl_verify' => false // عيّنها إلى FALSE إذا كنت لا تستخدم شهادة CA محددة
-            ],
+            'DSN'        => env('database.default.DSN', ''),
+            'hostname'   => env('database_default_hostname', 'localhost'), // <-- UPDATE: e.g., source-do-user-12345-0.db.ondigitalocean.com
+            'username'   => env('database_default_username', 'doadmin'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
+            'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
+            'database'   => env('database_default_database', 'defaultdb'),            // <-- UPDATE: Your DigitalOcean DB name
+            'DBDriver'   => env('database_default_DBDriver', 'MySQLi'),
+            'strictOn' => false,
 
-            'DBPrefix' => env('database.default.DBPrefix', ''),
-            'pConnect' => env('database.default.pConnect', false),
-            'DBDebug'  => env('database.default.DBDebug', (ENVIRONMENT !== 'production')),
-            'charset'  => env('database.default.charset', 'utf8'),
-            'DBCollat' => env('database.default.DBCollat', 'utf8_general_ci'),
-            'swapPre'  => env('database.default.swapPre', ''),
-            'encrypt'  => env('database.default.encrypt', false),
-            'compress' => env('database.default.compress', false),
-            'strictOn' => env('database.default.strictOn', false),
-            'failover' => env('database.default.failover', []),
-            'port'     => (int) env('database_default_port', 3306),
+            // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
+            'encrypt'  => [
+                'ssl_key'    => null,
+                'ssl_cert'   => null,
+                // Use realpath() to ensure the correct absolute path to your CA file.
+                // The path is relative to the CodeIgniter root (public/index.php).
+                // If the cert is in 'app/Database/ca-certificate.crt', the path is correct.
+                'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
+                'ssl_verify' => true // Set to TRUE to enforce server certificate verification
+            ],
+            // *** END SSL CONFIGURATION ***
+
+            'DBPrefix'   => env('database.default.DBPrefix', ''),
+            'pConnect'   => env('database.default.pConnect', false),
+            'DBDebug'    => env('database.default.DBDebug', (ENVIRONMENT !== 'production')),
+            'charset'    => env('database.default.charset', 'utf8'),
+            'DBCollat'   => env('database.default.DBCollat', 'utf8_general_ci'),
+            'swapPre'    => env('database.default.swapPre', ''),
+            'compress'   => env('database.default.compress', false),
+            'strictOn'   => env('database.default.strictOn', false),
+            'failover'   => env('database.default.failover', []),
+            'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
         ];
+
 
         $this->tests = [
             'DSN'      => env('database.tests.DSN', ''),

@@ -151,7 +151,7 @@ class blockControler extends BaseController
         $PersonModel = new PersonModel();
         $person = $PersonModel->select("*,person.id as p_id")
             ->join('block','block.id = person.block_id')
-            ->where('person.block_id = '.$id)
+            ->where('person.block_id', $id)
             ->where('person.isdelet',0)
             ->orderBy('person.fname','ASC')
             ->orderBy('person.sname','ASC')
@@ -160,7 +160,7 @@ class blockControler extends BaseController
             ->findAll();
 
         $BlockModel = new BlockModel();
-        $Block= $BlockModel->where('id ='.$id)->first();
+        $Block= $BlockModel->where('id', $id)->first();
 
         $filename = $Block['title'];
 

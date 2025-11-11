@@ -5,6 +5,8 @@ namespace Config;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 
+
+
 /*
  * --------------------------------------------------------------------
  * Application Events
@@ -21,6 +23,10 @@ use CodeIgniter\Exceptions\FrameworkException;
  * Example:
  *      Events::on('create', [$myInstance, 'myMethod']);
  */
+
+ Events::on('DBConnect', function ($connection) {
+    $connection->simpleQuery("SET SESSION sql_mode='STRICT_ALL_TABLES'");
+});
 
 Events::on('pre_system', static function () {
     if (ENVIRONMENT !== 'testing') {

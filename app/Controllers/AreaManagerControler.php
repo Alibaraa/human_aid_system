@@ -118,7 +118,7 @@ class AreaManagerControler extends BaseController
         $person = $PersonModel->select("*,person.id as p_id,block.title as block_title")
             ->join('block','block.id = person.block_id')
             ->join('area_manager','block.area_manager_id = area_manager.id')
-            ->where('area_manager.id = '.$id)
+            ->where('area_manager.id', $id)
             ->where('person.isdelet',0)
             ->orderBy('block.id','ASC')
             ->orderBy('person.fname','ASC')
@@ -128,7 +128,7 @@ class AreaManagerControler extends BaseController
             ->findAll();
 
         $AreaManagerModel = new AreaManagerModel();
-        $AreaManagerModel= $AreaManagerModel->where('id ='.$id)->first();
+        $AreaManagerModel= $AreaManagerModel->where('id', $id)->first();
 
         $filename = $AreaManagerModel['title'];
 
