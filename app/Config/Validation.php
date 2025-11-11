@@ -14,16 +14,16 @@ class Validation
     //--------------------------------------------------------------------
 
     /**
-     * Stores the classes that contain the
+     * Stores the classes that contain بthe
      * rules that are available.
-     *
-     * @var string[]
      */
     public $ruleSets = [
         Rules::class,
-        FormatRules::class,
+        //FormatRules::class, // Custom FormatRules (must be before original)
+        \App\Validation\FormatRules::class,
         FileRules::class,
         CreditCardRules::class,
+        // Note: Original FormatRules is replaced by App\Validation\FormatRules
     ];
 
     /**
