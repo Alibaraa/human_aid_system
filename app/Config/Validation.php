@@ -2,9 +2,9 @@
 
 namespace Config;
 
+use App\Validation\FormatRules;
 use CodeIgniter\Validation\CreditCardRules;
 use CodeIgniter\Validation\FileRules;
-use CodeIgniter\Validation\FormatRules;
 use CodeIgniter\Validation\Rules;
 
 class Validation
