@@ -25,7 +25,7 @@ class Validation
         CreditCardRules::class,
         // Note: Original FormatRules is replaced by App\Validation\FormatRules
     ];
-    //test
+    //test2
 
     /**
      * Specifies the views that are used to display the
