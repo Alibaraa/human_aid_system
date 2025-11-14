@@ -114,7 +114,7 @@ class Database extends Config
             'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
             'initSQL' => "SET sql_mode='NO_ENGINE_SUBSTITUTION'",
             'options' => [
-        MYSQLI_INIT_COMMAND => "SET SESSION sql_mode='NO_ENGINE_SUBSTITUTION'"
+        MYSQLI_INIT_COMMAND => "SET SESSION sql_mode='REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
     ]
  
         ];
