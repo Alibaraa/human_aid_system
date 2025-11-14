@@ -24,9 +24,11 @@ use CodeIgniter\Exceptions\FrameworkException;
  *      Events::on('create', [$myInstance, 'myMethod']);
  */
 
- Events::on('DBConnect', function ($connection) {
-    $connection->simpleQuery("SET SESSION sql_mode='STRICT_ALL_TABLES'");
-});
+// Removed DBConnect event listener that was causing SQL mode errors
+// SQL mode is now controlled by the 'strictOn' setting in app/Config/Database.php
+// Events::on('DBConnect', function ($connection) {
+//    $connection->simpleQuery("SET SESSION sql_mode='STRICT_ALL_TABLES'");
+//});
 
 Events::on('pre_system', static function () {
     if (ENVIRONMENT !== 'testing') {
