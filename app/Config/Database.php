@@ -87,7 +87,7 @@ class Database extends Config
             'username'   => env('database_default_username', 'doadmin'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
             'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
             'database'   => env('database_default_database', 'defaultdb'),            // <-- UPDATE: Your DigitalOcean DB name
-            'DBDriver'   => env('database_default_DBDriver', 'MySQLi'),
+            'DBDriver'   => trim(env('database_default_DBDriver', 'MySQLi'), '"\''),
             'strictOn' => false,
 
             // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
