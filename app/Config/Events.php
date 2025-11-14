@@ -29,6 +29,12 @@ use CodeIgniter\Exceptions\FrameworkException;
 // Events::on('DBConnect', function ($connection) {
 //    $connection->simpleQuery("SET SESSION sql_mode='STRICT_ALL_TABLES'");
 //});
+Events::on('DBQuery', static function ($query) {
+    $db = \Config\Database::connect();
+    $db->query("SET SESSION sql_mode='NO_ENGINE_SUBSTITUTION'");
+});
+
+
 
 Events::on('pre_system', static function () {
     if (ENVIRONMENT !== 'testing') {

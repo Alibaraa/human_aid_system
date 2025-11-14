@@ -109,9 +109,11 @@ class Database extends Config
             'DBCollat'   => env('database.default.DBCollat', 'utf8_general_ci'),
             'swapPre'    => env('database.default.swapPre', ''),
             'compress'   => env('database.default.compress', false),
-            'strictOn'   => env('database.default.strictOn', false),
+            'strictOn' => false,
             'failover'   => env('database.default.failover', []),
             'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
+            'initSQL' => "SET sql_mode='NO_ENGINE_SUBSTITUTION'",
+
         ];
 
 
