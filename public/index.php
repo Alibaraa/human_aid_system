@@ -2,7 +2,9 @@
 
 // Valid PHP Version?
 $minPHPVersion = '7.2';
+ini_set('max_execution_time', 180); // 180 ثانية = 3 دقائق
 if (phpversion() < $minPHPVersion)
+
 {
 	die("Your PHP version must be {$minPHPVersion} or higher to run CodeIgniter. Current version: " . phpversion());
 }
