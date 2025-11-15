@@ -88,7 +88,6 @@ class Database extends Config
             'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
             'database'   => env('database_default_database', 'defaultdb'),            // <-- UPDATE: Your DigitalOcean DB name
             'DBDriver'   => trim(env('database_default_DBDriver', 'MySQLi'), '"\''),
-            'strictOn' => false,
 
             // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
             // 'encrypt'  => [
@@ -109,14 +108,25 @@ class Database extends Config
             'DBCollat'   => env('database.default.DBCollat', 'utf8_general_ci'),
             'swapPre'    => env('database.default.swapPre', ''),
             'compress'   => env('database.default.compress', false),
-            'strictOn' => false,
             'failover'   => env('database.default.failover', []),
             'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
-            'initSQL' => "SET sql_mode='NO_ENGINE_SUBSTITUTION'",
-            'options' => [
-        MYSQLI_INIT_COMMAND => "SET SESSION sql_mode='REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
-    ]
- 
+
+            /**
+             * ----------------------------------------------------------------
+             * THE FIX
+             * ----------------------------------------------------------------
+             * 1. 'strictOn' is set to null. This COMPLETELY disables
+             * CodeIgniter's internal sql_mode logic, which is the
+             * source of the "STRICT_ALL_TABLES" error.
+             *
+             * 2. 'initSQL' is used to manually set a non-strict sql_mode.
+             * This prevents errors on MySQL 8.
+             *
+             * 3. The 'options' array has been removed to avoid conflict.
+             * ----------------------------------------------------------------
+             */
+            'strictOn' => null,
+            'initSQL'  => "SET SESSION sql_mode = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
         ];
 
 
