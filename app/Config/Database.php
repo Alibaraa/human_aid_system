@@ -90,17 +90,16 @@ class Database extends Config
             'DBDriver'   => trim(env('database_default_DBDriver', 'MySQLi'), '"\''),
 
             // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
-            // 'encrypt'  => [
-            //     'ssl_key'    => null,
-            //     'ssl_cert'   => null,
-            //     // Use realpath() to ensure the correct absolute path to your CA file.
-            //     // The path is relative to the CodeIgniter root (public/index.php).
-            //     // If the cert is in 'app/Database/ca-certificate.crt', the path is correct.
-            //     'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
-            //     'ssl_verify' => true // Set to TRUE to enforce server certificate verification
-            // ],
+            'encrypt'  => [
+                'ssl_key'    => null,
+                'ssl_cert'   => null,
+                // Use realpath() to ensure the correct absolute path to your CA file.
+                // The path is relative to the CodeIgniter root (public/index.php).
+                // If the cert is in 'app/Database/ca-certificate.crt', the path is correct.
+                'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
+                'ssl_verify' => true // Set to TRUE to enforce server certificate verification
+            ],
             // *** END SSL CONFIGURATION ***
-            'encrypt' => false,
             'DBPrefix'   => env('database.default.DBPrefix', ''),
             'pConnect'   => env('database.default.pConnect', false),
             'DBDebug'    => env('database.default.DBDebug', (ENVIRONMENT !== 'production')),
