@@ -21,7 +21,7 @@ class Home extends BaseController
     public function index()
     {
         if (!isset($this->session->get('userData')['name'])) {
-            return redirect()->to(base_url('login_page/signin-1.html'));
+            return redirect()->to(base_url('login'));
         }
         $data = [];
         $person = new PersonModel();
