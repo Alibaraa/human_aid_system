@@ -124,7 +124,7 @@ class Database extends Config
              * 3. The 'options' array has been removed to avoid conflict.
              * ----------------------------------------------------------------
              */
-            'strictOn' => null,
+            'strictOn' => true,
            // 'initSQL'  => "SET SESSION sql_mode = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
         ];
 
