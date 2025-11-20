@@ -148,7 +148,7 @@ class Database extends Config
             'failover' => env('database.tests.failover', []),
             'port'     => (int) env('database.tests.port', 3306),
         ];
-
+//
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
