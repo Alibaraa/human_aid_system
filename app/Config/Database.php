@@ -84,9 +84,9 @@ class Database extends Config
         $this->default = [
             'DSN'        => env('database.default.DSN', ''),
             'hostname'   => env('database_default_hostname', 'localhost'), // <-- UPDATE: e.g., source-do-user-12345-0.db.ondigitalocean.com
-            'username'   => env('database_default_username', 'doadmin'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
+            'username'   => env('database_default_username', 'root'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
             'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
-            'database'   => env('database_default_database', 'defaultdb'),            // <-- UPDATE: Your DigitalOcean DB name
+            'database'   => env('database_default_database', ''),            // <-- UPDATE: Your DigitalOcean DB name
             'DBDriver'   => trim(env('database_default_DBDriver', 'MySQLi'), '"\''),
 
             // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
@@ -124,8 +124,8 @@ class Database extends Config
              * 3. The 'options' array has been removed to avoid conflict.
              * ----------------------------------------------------------------
              */
-            'strictOn' => null,
-            'initSQL'  => "SET SESSION sql_mode = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
+            'strictOn' => false,
+           // 'initSQL'  => "SET SESSION sql_mode = 'REAL_AS_FLOAT,PIPES_AS_CONCAT,ANSI_QUOTES,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION'"
         ];
 
 
