@@ -32,11 +32,11 @@ class Database extends Config
      * @var array
      */
     public $default = [
-        'DSN'      => '',
-        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+        'DSN'      => 'mysqli:host=db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com;port=25060;dbname=defaultdb;charset=utf8mb4',
+        'hostname' => '', // تركها فارغة لأننا نستخدم DSN
         'username' => 'doadmin',
         'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
-        'database' => 'defaultdb',
+        'database' => 'defaultdb', // DSN يحتاج هذا الاسم أحيانًا، حافظ عليه
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -44,19 +44,17 @@ class Database extends Config
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-
-        // --- THE FIX STARTS HERE ---
-        // MySQLi uses 'encrypt', not 'options'
-        'encrypt' => [
-            'ssl_ca'     => APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt',
-            'ssl_verify' => false // Set to true if you want strict verification later
-        ],
-        // --- THE FIX ENDS HERE ---
-
+        'encrypt'  => true, // تفعيل SSL
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
         'port'     => 25060,
+        'options'  => [
+            MYSQLI_CLIENT_SSL => true,
+            // إذا لديك ملف شهادة CA رسمي من DigitalOcean:
+            // MYSQLI_OPT_SSL_CA => 'app\Database\ca-certificate.crt',
+            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => false, // للتجربة فقط إذا لا تستخدم CA
+        ],
     ];
     /**
      * This database connection is used when
