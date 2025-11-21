@@ -52,8 +52,8 @@ class Database extends Config
         'options'  => [
             MYSQLI_CLIENT_SSL => true,
             // إذا لديك ملف شهادة CA رسمي من DigitalOcean:
-            // MYSQLI_OPT_SSL_CA => 'app\Database\ca-certificate.crt',
-            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => false, // للتجربة فقط إذا لا تستخدم CA
+            MYSQLI_OPT_SSL_CA => APPPATH . 'Database/ca-certificate.crt',
+            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => true, // للتجربة فقط إذا لا تستخدم CA
         ],
     ];
     /**
