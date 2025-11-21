@@ -41,18 +41,17 @@ class Database extends Config
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
+        'charset'  => 'utf8mb4',            // الأفضل UTF8MB4 للتوافق مع Emoji والأحرف الخاصة
+        'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
+        'encrypt'  => true,                  // تفعيل TLS/SSL
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
         'port'     => 25060,
-        'encrypt'  => [
-                'ssl_key'    => null,
-                'ssl_cert'   => null,
-                'ssl_ca'     => APPPATH . 'Database/ca-certificate.crt',
-                'ssl_verify' => true
+        'options'  => [
+            MYSQLI_CLIENT_SSL => true,       // تأكد من دعم SSL
+            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => false, // إذا لم تستخدم شهادة CA
         ],
     ];
 
