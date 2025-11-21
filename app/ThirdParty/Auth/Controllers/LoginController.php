@@ -54,12 +54,19 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
-		echo "<pre>";
-		print_r($this->request->getPost());
-		$users = new UserModel();
-		$user = $users->where('email', $this->request->getPost('email'))->first();
-		print_r($user);
-		echo "</pre>";
+		try {
+			$db = \Config\Database::connect();
+			$db->connect(); // محاولة اتصال
+	
+			if ($db->connID) {
+				echo "Database Connected ✔️";
+			} else {
+				echo "Database NOT Connected ❌";
+			}
+	
+		} catch (\Exception $e) {
+			echo "Error: " . $e->getMessage();
+		}
 		exit;
 		// validate request
 		$rules = [
