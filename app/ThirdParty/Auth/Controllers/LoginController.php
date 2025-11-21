@@ -54,6 +54,10 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
+		echo "<pre>";
+		print_r($this->request->getPost());
+		echo "</pre>";
+		exit;
 		// validate request
 		$rules = [
 			'email'		=> 'required|valid_email',
