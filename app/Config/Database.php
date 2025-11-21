@@ -41,20 +41,23 @@ class Database extends Config
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8mb4',            // الأفضل UTF8MB4 للتوافق مع Emoji والأحرف الخاصة
+        'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'options'  => [
-            PDO::MYSQL_ATTR_SSL_CA => ROOTPATH . 'app/Database/ca-certificate.crt',
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
-        ],               // تفعيل TLS/SSL
+
+        // --- THE FIX STARTS HERE ---
+        // MySQLi uses 'encrypt', not 'options'
+        'encrypt' => [
+            'ssl_ca'     => ROOTPATH . 'app/Database/ca-certificate.crt',
+            'ssl_verify' => false // Set to true if you want strict verification later
+        ],
+        // --- THE FIX ENDS HERE ---
+
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
         'port'     => 25060,
-       
     ];
-
     /**
      * This database connection is used when
      * running PHPUnit database tests.
