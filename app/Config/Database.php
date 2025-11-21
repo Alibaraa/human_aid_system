@@ -48,7 +48,7 @@ class Database extends Config
         // --- THE FIX STARTS HERE ---
         // MySQLi uses 'encrypt', not 'options'
         'encrypt' => [
-            'ssl_ca'     => ROOTPATH . 'app/Database/ca-certificate.crt',
+            'ssl_ca'     => APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt',
             'ssl_verify' => false // Set to true if you want strict verification later
         ],
         // --- THE FIX ENDS HERE ---
