@@ -44,12 +44,7 @@ class Database extends Config
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt'  => [
-            'ssl_key'    => null,
-            'ssl_cert'   => null,
-            'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
-            'ssl_verify' => false
-        ],
+        'encrypt'  => false,  // Will be set in constructor
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
@@ -84,6 +79,14 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+        // Set SSL configuration with realpath
+        $this->default['encrypt'] = [
+            'ssl_key'    => null,
+            'ssl_cert'   => null,
+            'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
+            'ssl_verify' => false
+        ];
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
