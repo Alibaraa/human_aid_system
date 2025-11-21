@@ -44,11 +44,20 @@ class Database extends Config
         'charset'  => 'utf8',
         'DBCollat' => 'utf8_general_ci',
         'swapPre'  => '',
-        'encrypt'  => false,
+       // 'encrypt'  => false,
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
         'port'     => 25060,
+        'encrypt'  => [
+                'ssl_key'    => null,
+                'ssl_cert'   => null,
+                // Use realpath() to ensure the correct absolute path to your CA file.
+                // The path is relative to the CodeIgniter root (public/index.php).
+                // If the cert is in 'app/Database/ca-certificate.crt', the path is correct.
+                'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
+                'ssl_verify' => true // Set to TRUE to enforce server certificate verification
+            ],
     ];
 
     /**
