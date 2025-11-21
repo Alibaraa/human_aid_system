@@ -29,26 +29,19 @@ class Database extends Config
     /**
      * The default database connection.
      *
+    /**
      * @var array
      */
     public $default = [
-        'DSN'      => '',
-        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+        'DSN'      => 'mysqli:host=db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com;port=25060;dbname=defaultdb;charset=utf8mb4',
         'username' => 'doadmin',
         'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
-        'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8mb4',
-        'DBCollat' => 'utf8mb4_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,  // Will be set in constructor
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 25060,
+        'DBDebug'  => true,
+        'cacheOn'  => false,
+        'cacheDir' => ''
     ];
     /**
      * This database connection is used when
@@ -79,14 +72,6 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
-
-        // Set SSL configuration with realpath
-        $this->default['encrypt'] = [
-            'ssl_key'    => null,
-            'ssl_cert'   => null,
-            'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
-            'ssl_verify' => false
-        ];
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
