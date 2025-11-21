@@ -47,7 +47,7 @@ class Database extends Config
         'encrypt'  => [
             'ssl_key'    => null,
             'ssl_cert'   => null,
-            'ssl_ca'     => APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt',
+            'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
             'ssl_verify' => false
         ],
         'compress' => false,
