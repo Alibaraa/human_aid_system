@@ -56,6 +56,9 @@ class LoginController extends Controller
 	{
 		echo "<pre>";
 		print_r($this->request->getPost());
+		$users = new UserModel();
+		$user = $users->where('email', $this->request->getPost('email'))->first();
+		print_r($user);
 		echo "</pre>";
 		exit;
 		// validate request
