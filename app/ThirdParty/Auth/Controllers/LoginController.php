@@ -56,7 +56,7 @@ class LoginController extends Controller
 	{
 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
 		$user = 'doadmin';
-		$pass = '';
+		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
 		$db   = 'defaultdb';
 		$port = 25060;
 
@@ -67,7 +67,7 @@ class LoginController extends Controller
 		} else {
 			echo "Connected OK - server_info: " . $mysqli->server_info;
 		}
-
+//
 		exit;
 		// validate request
 		$rules = [
