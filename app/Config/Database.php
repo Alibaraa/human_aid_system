@@ -55,9 +55,9 @@ class Database extends Config
                 // Use realpath() to ensure the correct absolute path to your CA file.
                 // The path is relative to the CodeIgniter root (public/index.php).
                 // If the cert is in 'app/Database/ca-certificate.crt', the path is correct.
-                'ssl_ca'     => realpath(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt'),
+                'ssl_ca' 	=> 'app/Database/ca-certificate.crt',
                 'ssl_verify' => true // Set to TRUE to enforce server certificate verification
-            ],
+        ],
     ];
 
     /**
