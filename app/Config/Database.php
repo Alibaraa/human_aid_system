@@ -33,15 +33,20 @@ class Database extends Config
      * @var array
      */
     public $default = [
-        'DSN'      => 'mysqli:host=db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com;port=25060;dbname=defaultdb;charset=utf8mb4',
+        'DSN'      => '', // فارغ إذا MySQLi
+        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
         'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
+        'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => true,
         'cacheOn'  => false,
-        'cacheDir' => ''
+        'cacheDir' => '',
+        'charset'  => 'utf8mb4',
+        'DBCollat' => 'utf8mb4_general_ci',
+        'port'     => 25060, // مهم
     ];
     /**
      * This database connection is used when
