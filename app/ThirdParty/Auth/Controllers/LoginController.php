@@ -56,7 +56,7 @@ class LoginController extends Controller
 	{
 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
 		$user = 'doadmin';
-		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
+		$pass = '';
 		$db   = 'defaultdb';
 		$port = 25060;
 
