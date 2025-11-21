@@ -83,10 +83,14 @@ class Database extends Config
         // Read database configuration from environment variables
         $this->default = [
             'DSN'        => env('database.default.DSN', ''),
-            'hostname'   => env('database_default_hostname', 'localhost'), // <-- UPDATE: e.g., source-do-user-12345-0.db.ondigitalocean.com
-            'username'   => env('database_default_username', 'root'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
-            'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
-            'database'   => env('database_default_database', ''),            // <-- UPDATE: Your DigitalOcean DB name
+            // 'hostname'   => env('database_default_hostname', 'localhost'), // <-- UPDATE: e.g., source-do-user-12345-0.db.ondigitalocean.com
+            // 'username'   => env('database_default_username', 'root'),                  // <-- UPDATE: Your DigitalOcean DB username (usually 'doadmin')
+            // 'password'   => env('database_default_password', ''),        // <-- UPDATE: Your DigitalOcean DB password
+            // 'database'   => env('database_default_database', ''),            // <-- UPDATE: Your DigitalOcean DB name
+            'hostname'   => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+            'username'   => 'doadmin',
+            'password'   => 'AVNS_grgEur-BkgLiRlRqB7O',
+            'database'   => 'defaultdb',
             'DBDriver'   => trim(env('database_default_DBDriver', 'MySQLi'), '"\''),
 
             // *** START SSL CONFIGURATION FOR DIGITALOCEAN ***
@@ -108,8 +112,8 @@ class Database extends Config
             'swapPre'    => env('database.default.swapPre', ''),
             'compress'   => env('database.default.compress', false),
             'failover'   => env('database.default.failover', []),
-            'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
-
+            //'port'       => (int) env('database_default_port', 25060), // <-- UPDATE: Use your DO port (e.g., 25060)
+            'port'       => 25060,
             /**
              * ----------------------------------------------------------------
              * THE FIX
@@ -148,7 +152,7 @@ class Database extends Config
             'failover' => env('database.tests.failover', []),
             'port'     => (int) env('database.tests.port', 3306),
         ];
-//
+// 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
