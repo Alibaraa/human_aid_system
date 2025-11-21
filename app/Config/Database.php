@@ -44,11 +44,10 @@ class Database extends Config
         'charset'  => 'utf8mb4',            // الأفضل UTF8MB4 للتوافق مع Emoji والأحرف الخاصة
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt'  => array(
-        'ssl_set' => TRUE, // Important to trigger SSL
-        'ssl_ca'  => ROOTPATH . 'app/Database/ca-certificate.crt',
-        'ssl_verify' => TRUE
-    ),                 // تفعيل TLS/SSL
+        'options'  => [
+            PDO::MYSQL_ATTR_SSL_CA => ROOTPATH . 'app/Database/ca-certificate.crt',
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false
+        ],               // تفعيل TLS/SSL
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
