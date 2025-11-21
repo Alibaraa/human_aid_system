@@ -54,6 +54,22 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
+		try {
+			$db = \Config\Database::connect();
+			$db->connect(); // محاولة اتصال
+	
+			if ($db->connID) {
+				echo "Database Connected ✔️";
+			} else {
+				echo "Database NOT Connected ❌";
+			}
+	
+		} catch (\Exception $e) {
+			echo "Error: " . $e->getMessage();
+		}
+        
+		exit;
+
 // 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
 // 		$user = 'doadmin';
 // 		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
