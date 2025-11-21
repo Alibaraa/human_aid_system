@@ -60,7 +60,7 @@ class LoginController extends Controller
 		$db   = 'defaultdb';
 		$port = 25060;
 
-		$mysqli = new mysqli($host, $user, $pass, $db, $port);
+		$mysqli = new \mysqli($host, $user, $pass, $db, $port);
 
 		if ($mysqli->connect_error) {
 			echo "Connect Error ({$mysqli->connect_errno}): {$mysqli->connect_error}";
