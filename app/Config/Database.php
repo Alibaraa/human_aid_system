@@ -44,11 +44,11 @@ class Database extends Config
         'charset'  => 'utf8mb4',            // الأفضل UTF8MB4 للتوافق مع Emoji والأحرف الخاصة
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt' => [
-            // ROOTPATH points to your project root, so we append your specific path
-            'ssl_ca' => ROOTPATH . 'app/Database/ca-certificate.crt',
-            'ssl_verify' => true, 
-        ],                  // تفعيل TLS/SSL
+        'encrypt'  => array(
+        'ssl_set' => TRUE, // Important to trigger SSL
+        'ssl_ca'  => ROOTPATH . 'app/Database/ca-certificate.crt',
+        'ssl_verify' => TRUE
+    ),                 // تفعيل TLS/SSL
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
