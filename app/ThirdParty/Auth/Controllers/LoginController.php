@@ -54,21 +54,21 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
-		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
-		$user = 'doadmin';
-		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
-		$db   = 'defaultdb';
-		$port = 25060;
+// 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
+// 		$user = 'doadmin';
+// 		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
+// 		$db   = 'defaultdb';
+// 		$port = 25060;
 
-		$mysqli = new \mysqli($host, $user, $pass, $db, $port);
+// 		$mysqli = new \mysqli($host, $user, $pass, $db, $port);
 
-		if ($mysqli->connect_error) {
-			echo "Connect Error ({$mysqli->connect_errno}): {$mysqli->connect_error}";
-		} else {
-			echo "Connected OK - server_info: " . $mysqli->server_info;
-		}
-//
-		exit;
+// 		if ($mysqli->connect_error) {
+// 			echo "Connect Error ({$mysqli->connect_errno}): {$mysqli->connect_error}";
+// 		} else {
+// 			echo "Connected OK - server_info: " . $mysqli->server_info;
+// 		}
+// //
+// 		exit;
 		// validate request
 		$rules = [
 			'email'		=> 'required|valid_email',
