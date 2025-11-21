@@ -44,15 +44,16 @@ class Database extends Config
         'charset'  => 'utf8mb4',            // الأفضل UTF8MB4 للتوافق مع Emoji والأحرف الخاصة
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt'  => true,                  // تفعيل TLS/SSL
+        'encrypt' => [
+            // ROOTPATH points to your project root, so we append your specific path
+            'ssl_ca' => ROOTPATH . 'app/Database/ca-certificate.crt',
+            'ssl_verify' => true, 
+        ],                  // تفعيل TLS/SSL
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
         'port'     => 25060,
-        'options'  => [
-            MYSQLI_CLIENT_SSL => true,       // تأكد من دعم SSL
-            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => false, // إذا لم تستخدم شهادة CA
-        ],
+       
     ];
 
     /**
