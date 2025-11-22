@@ -32,16 +32,30 @@ class Database extends Config
     /**
      * @var array
      */
-    public $default = [
-        'DSN'      => 'mysql:host=db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com;port=25060;dbname=defaultdb;charset=utf8mb4',
+
+     //echo WRITEABLEPATH;
+     public $default = [
+        'DSN'      => '',
+        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
         'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
-        'DBDriver' => 'PDO',
+        'database' => 'defaultdb',
+        'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
-        'DBDebug'  => true,
-        'cacheOn'  => false,
-        'cacheDir' => ''
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
+        'charset'  => 'utf8',
+        'DBCollat' => 'utf8_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => [
+            'ssl_ca'     => APPPATH . 'Database/ca-certificate.crt',
+            'ssl_verify' => true,
+            'ssl_cipher' => '',
+        ],
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 25060,
     ];
     /**
      * This database connection is used when
