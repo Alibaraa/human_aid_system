@@ -62,8 +62,8 @@ class Database extends Config
 
         // إضافة SSL
         $this->default['options'] = [
-            MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => true,
-            MYSQLI_OPT_SSL_CA => '/tmp/db-ca.crt', // ← الملف الذي أنشأته DigitalOcean
+            \MYSQLI_OPT_SSL_VERIFY_SERVER_CERT => true,
+            \MYSQLI_OPT_SSL_CA => '/tmp/db-ca.crt', // ← الملف الذي أنشأته DigitalOcean
         ];
         
     }
