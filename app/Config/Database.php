@@ -26,10 +26,14 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'localhost',
-        'username' => '',
-        'password' => '',
-        'database' => '',
+        // ------------------------------------------------------------------
+        // هام جداً: نضع الرابط الطويل هنا بدلاً من localhost
+        // لتجنب خطأ Error 2002 (Socket connection)
+        // ------------------------------------------------------------------
+        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+        'username' => 'doadmin',
+        'password' => '', // سيتم تعبئتها تلقائياً من الكود بالأسفل أو ضع الباسوورد الجديد هنا
+        'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -41,13 +45,9 @@ class Database extends Config
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
-        'port'     => 3306,
+        'port'     => 25060, // البورت الخاص بـ DigitalOcean
     ];
 
-    /**
-     * This database connection is used when
-     * running PHPUnit database tests.
-     */
     public $tests = [
         'DSN'      => '',
         'hostname' => '127.0.0.1',
@@ -72,40 +72,24 @@ class Database extends Config
     {
         parent::__construct();
 
-        // ----------------------------------------------------------
-        // 1. DETECT DIGITALOCEAN 'DATABASE_URL'
-        // ----------------------------------------------------------
-        // DigitalOcean App Platform provides a single long URL string:
-        // mysql://user:password@host:port/database
+        // 1. محاولة جلب البيانات من DATABASE_URL (من DigitalOcean)
         $dbUrl = getenv('DATABASE_URL');
 
         if (!empty($dbUrl)) {
             $parsed = parse_url($dbUrl);
-
             if ($parsed) {
+                // إذا وجدنا بيانات في البيئة، نستخدمها لتحديث الإعدادات
                 $this->default['hostname'] = $parsed['host'] ?? $this->default['hostname'];
                 $this->default['username'] = $parsed['user'] ?? $this->default['username'];
                 $this->default['password'] = $parsed['pass'] ?? $this->default['password'];
                 $this->default['database'] = ltrim($parsed['path'] ?? 'defaultdb', '/');
                 $this->default['port']     = $parsed['port'] ?? 25060;
             }
-        } 
-        // ----------------------------------------------------------
-        // 2. FALLBACK: Check for Individual ENV Variables
-        // ----------------------------------------------------------
-        // If DATABASE_URL wasn't found, check if manually set vars exist
-        else {
-            $this->default['hostname'] = getenv('database_default_hostname') ?: $this->default['hostname'];
-            $this->default['username'] = getenv('database_default_username') ?: $this->default['username'];
-            $this->default['password'] = getenv('database_default_password') ?: $this->default['password'];
         }
 
-        // ----------------------------------------------------------
-        // 3. SSL CONFIGURATION (Crucial for Managed DBs)
-        // ----------------------------------------------------------
+        // 2. إعدادات SSL الضرورية (CA Certificate)
         $caCertPath = '/tmp/db-ca.crt';
 
-        // If we found the cert file, we enable SSL
         if (file_exists($caCertPath)) {
             $this->default['encrypt'] = [
                 'ssl_key'    => NULL,
@@ -113,13 +97,11 @@ class Database extends Config
                 'ssl_ca'     => $caCertPath,
                 'ssl_capath' => NULL,
                 'ssl_cipher' => NULL,
-                'ssl_verify' => false // Keep this false to prevent hostname mismatch errors
+                'ssl_verify' => false // هام جداً لتجنب مشاكل تطابق الاسم
             ];
         }
 
-        // ----------------------------------------------------------
-        // 4. TESTING ENVIRONMENT OVERRIDE
-        // ----------------------------------------------------------
+        // 3. ضمان بيئة الاختبار
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
