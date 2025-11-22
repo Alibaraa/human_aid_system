@@ -32,7 +32,7 @@ class Database extends Config
         // ------------------------------------------------------------------
         'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
-        'password' => '', // سيتم تعبئتها تلقائياً من الكود بالأسفل أو ضع الباسوورد الجديد هنا
+        'password' => 'AVNS_grgEur-BkgLiRlRqB7O', // سيتم تعبئتها تلقائياً من الكود بالأسفل أو ضع الباسوورد الجديد هنا
         'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
