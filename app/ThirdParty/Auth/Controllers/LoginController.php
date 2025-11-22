@@ -56,16 +56,49 @@ class LoginController extends Controller
 	{
 		try {
 			$db = \Config\Database::connect();
+			
+			// Get detailed connection info
+			$dbConfig = config('Database');
+			$encryptConfig = $dbConfig->default['encrypt'] ?? 'not set';
+			
+			echo "SSL Config: ";
+			var_dump($encryptConfig);
+			echo "<br><br>";
+			
+			// Try to connect and get detailed error info
 			$db->connect(); // محاولة اتصال
 	
 			if ($db->connID) {
-				echo "Database Connected ✔️";
+				echo "Database Connected ✔️<br>";
+				echo "Connection ID: " . ($db->connID ? 'Yes' : 'No') . "<br>";
 			} else {
-				echo "Database NOT Connected ❌";
+				echo "Database NOT Connected ❌<br>";
+				
+				// Get detailed error information
+				$error = $db->error();
+				if ($error) {
+					echo "Error Code: " . ($error['code'] ?? 'N/A') . "<br>";
+					echo "Error Message: " . ($error['message'] ?? 'No error message') . "<br>";
+				}
+				
+				// Try to get mysqli error if available
+				if (method_exists($db, 'mysqli') && $db->mysqli()) {
+					$mysqli = $db->mysqli();
+					if ($mysqli && $mysqli->connect_error) {
+						echo "MySQLi Error: " . $mysqli->connect_error . "<br>";
+						echo "MySQLi Error No: " . $mysqli->connect_errno . "<br>";
+					}
+				}
 			}
 	
 		} catch (\Exception $e) {
-			echo "Error: " . $e->getMessage();
+			echo "Exception: " . $e->getMessage() . "<br>";
+			echo "Error Code: " . $e->getCode() . "<br>";
+			echo "File: " . $e->getFile() . " Line: " . $e->getLine() . "<br>";
+			if ($e->getPrevious()) {
+				echo "Previous: " . $e->getPrevious()->getMessage() . "<br>";
+			}
+			echo "Stack Trace: <pre>" . $e->getTraceAsString() . "</pre>";
 		}
         
 		exit;

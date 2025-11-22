@@ -93,30 +93,24 @@ class Database extends Config
         // Check for certificate in /tmp (DigitalOcean App Platform) - try both possible filenames
         if (file_exists('/tmp/db-ca.crt') && is_readable('/tmp/db-ca.crt')) {
             $caCertPath = '/tmp/db-ca.crt';
-            echo 'file exist 1 ';
         }
         elseif (file_exists('/tmp/ca-certificate.crt') && is_readable('/tmp/ca-certificate.crt')) {
             $caCertPath = '/tmp/ca-certificate.crt';
-            echo 'file exist 2 ';
         }
         // Fallback: Check for certificate in app/Database (Local development)
         elseif (file_exists(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt') 
                 && is_readable(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt')) {
             $caCertPath = APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt';
-         echo 'file exist 3';
-        }
-        else{
-            echo 'file not exist for sorry';
         }
         
         // Enable SSL if certificate file exists
+        // CodeIgniter 4 MySQLi expects SSL options in this format
         if ($caCertPath !== null) {
             $this->default['encrypt'] = [
                 'ssl_ca' => $caCertPath,
-                'ssl_verify' => false,
+                'ssl_verify' => false, // Set to false to skip certificate verification
             ];
         }
-        //
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
