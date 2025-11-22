@@ -3,6 +3,7 @@
 namespace Config;
 
 use CodeIgniter\Database\Config;
+use PDO;
 
 class Database extends Config
 {
@@ -15,11 +16,16 @@ class Database extends Config
         'username' => '',
         'password' => '',
         'database' => '',
-        'DBDriver' => 'MySQLi',
-        'port'     => '',
+        'DBDriver' => 'PDO', // استخدم PDO بدل MySQLi
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => (ENVIRONMENT !== 'production'),
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
+        'swapPre'  => '',
         'encrypt'  => true,
+        'failover' => [],
+        'port'     => '',
         'options'  => [], // سيتم إعدادها في الـ constructor
     ];
 
@@ -47,27 +53,31 @@ class Database extends Config
     {
         parent::__construct();
 
-        // إذا نشتغل على environment الاختبارية
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
             return;
         }
 
         // جلب بيانات الاتصال من Environment
-        $this->default['hostname'] = getenv('database_default_hostname');
-        $this->default['username'] = getenv('database_default_username');
-        $this->default['password'] = getenv('database_default_password');
-        $this->default['database'] = getenv('database_default_database');
-        $this->default['port']     = getenv('database_default_port');
+        $hostname = getenv('database_default_hostname');
+        $username = getenv('database_default_username');
+        $password = getenv('database_default_password');
+        $database = getenv('database_default_database');
+        $port     = getenv('database_default_port');
 
-        // إعداد SSL بطريقة آمنة بدون constants
+        $this->default['hostname'] = $hostname;
+        $this->default['username'] = $username;
+        $this->default['password'] = $password;
+        $this->default['database'] = $database;
+        $this->default['port']     = $port;
+
+        // إعداد DSN لـ PDO
+        $this->default['DSN'] = "mysql:host={$hostname};port={$port};dbname={$database};charset=utf8mb4";
+
+        // إعداد خيارات PDO SSL
         $this->default['options'] = [
-            'ssl_key' => null,
-            'ssl_cert' => null,
-            'ssl_ca' => '/tmp/db-ca.crt',          // ← DigitalOcean App Platform يكتب هذا الملف تلقائيًا
-            'ssl_capath' => null,
-            'ssl_cipher' => null,
-            'ssl_verify_server_cert' => true,
+            PDO::MYSQL_ATTR_SSL_CA => '/tmp/db-ca.crt',   // DigitalOcean يكتب الملف تلقائيًا
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
         ];
     }
 }
