@@ -20,7 +20,7 @@ class Database extends Config
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'encrypt'  => true,
-        'options'  => [],
+        'options'  => [], // سيتم إعدادها في الـ constructor
     ];
 
     public $tests = [
@@ -47,24 +47,27 @@ class Database extends Config
     {
         parent::__construct();
 
-        // أثناء الاختبار
+        // إذا نشتغل على environment الاختبارية
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
             return;
         }
 
-        // تحميل المتغيرات من البيئة
+        // جلب بيانات الاتصال من Environment
         $this->default['hostname'] = getenv('database_default_hostname');
         $this->default['username'] = getenv('database_default_username');
         $this->default['password'] = getenv('database_default_password');
         $this->default['database'] = getenv('database_default_database');
         $this->default['port']     = getenv('database_default_port');
 
-        // إضافة SSL
+        // إعداد SSL بطريقة آمنة بدون constants
         $this->default['options'] = [
+            'ssl_key' => null,
+            'ssl_cert' => null,
+            'ssl_ca' => '/tmp/db-ca.crt',          // ← DigitalOcean App Platform يكتب هذا الملف تلقائيًا
+            'ssl_capath' => null,
+            'ssl_cipher' => null,
             'ssl_verify_server_cert' => true,
-            'ssl_ca' => '/tmp/db-ca.crt',
         ];
-        
     }
 }
