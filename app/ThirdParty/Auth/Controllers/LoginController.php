@@ -74,19 +74,23 @@ class LoginController extends Controller
 			} else {
 				echo "Database NOT Connected ❌<br>";
 				
-				// Get detailed error information
-				$error = $db->error();
-				if ($error) {
-					echo "Error Code: " . ($error['code'] ?? 'N/A') . "<br>";
-					echo "Error Message: " . ($error['message'] ?? 'No error message') . "<br>";
-				}
-				
-				// Try to get mysqli error if available
-				if (method_exists($db, 'mysqli') && $db->mysqli()) {
-					$mysqli = $db->mysqli();
-					if ($mysqli && $mysqli->connect_error) {
-						echo "MySQLi Error: " . $mysqli->connect_error . "<br>";
-						echo "MySQLi Error No: " . $mysqli->connect_errno . "<br>";
+				// Get detailed error information - check if connID exists first
+				if (property_exists($db, 'connID') && $db->connID !== false) {
+					$error = $db->error();
+					if ($error && is_array($error)) {
+						echo "Error Code: " . ($error['code'] ?? 'N/A') . "<br>";
+						echo "Error Message: " . ($error['message'] ?? 'No error message') . "<br>";
+					}
+				} else {
+					echo "Connection failed - connID is false<br>";
+					
+					// Try to access the underlying mysqli connection if available
+					if (property_exists($db, 'mysqli') && is_object($db->mysqli)) {
+						$mysqli = $db->mysqli;
+						if ($mysqli->connect_error) {
+							echo "MySQLi Error: " . $mysqli->connect_error . "<br>";
+							echo "MySQLi Error No: " . $mysqli->connect_errno . "<br>";
+						}
 					}
 				}
 			}

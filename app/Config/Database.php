@@ -110,6 +110,11 @@ class Database extends Config
                 'ssl_ca' => $caCertPath,
                 'ssl_verify' => false, // Set to false to skip certificate verification
             ];
+            
+            // Register custom MySQLi connection class for SSL support
+            if ($this->default['DBDriver'] === 'MySQLi') {
+                \CodeIgniter\Database\Database::registerDriver('MySQLi', \App\Database\MySQLi\Connection::class);
+            }
         }
 
         // Ensure that we always set the database group to 'tests' if
