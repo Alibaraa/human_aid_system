@@ -84,29 +84,32 @@ class Database extends Config
     {
         parent::__construct();
 
-     
-        $caCertPath = '/tmp/db-ca.crt';
-
-        if (file_exists('/tmp/db-ca.crt')) {
-         echo 'file exist';
+        // Configure SSL certificate for DigitalOcean MySQL connection
+        // Priority: 1. /tmp/db-ca.crt or /tmp/ca-certificate.crt (DigitalOcean App Platform)
+        //          2. app/Database/ca-certificate.crt (Local development)
+        
+        $caCertPath = null;
+        
+        // Check for certificate in /tmp (DigitalOcean App Platform) - try both possible filenames
+        if (file_exists('/tmp/db-ca.crt') && is_readable('/tmp/db-ca.crt')) {
+            $caCertPath = '/tmp/db-ca.crt';
+        }
+        elseif (file_exists('/tmp/ca-certificate.crt') && is_readable('/tmp/ca-certificate.crt')) {
+            $caCertPath = '/tmp/ca-certificate.crt';
+        }
+        // Fallback: Check for certificate in app/Database (Local development)
+        elseif (file_exists(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt') 
+                && is_readable(APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt')) {
+            $caCertPath = APPPATH . 'Database' . DIRECTORY_SEPARATOR . 'ca-certificate.crt';
+        }
+        
+        // Enable SSL if certificate file exists
+        if ($caCertPath !== null) {
             $this->default['encrypt'] = [
-                'ssl_ca'     => '/tmp/db-ca.crt',
-                'ssl_verify' => true,
-            ];
-        } 
-        // 2. Fallback: Check for a local file (Local Development)
-        elseif (file_exists(WRITEPATH . 'Database/ca-certificate.crt')) {
-            echo 'file not exist'; 
-            $this->default['encrypt'] = [
-                'ssl_ca'     => WRITEPATH . 'Database/ca-certificate.crt',
+                'ssl_ca' => $caCertPath,
                 'ssl_verify' => true,
             ];
         }
-        else{
-            echo "file not exist !!!";
-        }
-
-        //
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
