@@ -54,73 +54,18 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
-		try {
-			$db = \Config\Database::connect();
-			
-			// Get detailed connection info
-			$dbConfig = config('Database');
-			$encryptConfig = $dbConfig->default['encrypt'] ?? 'not set';
-			
-			echo "SSL Config: ";
-			var_dump($encryptConfig);
-			echo "<br><br>";
-			
-			// Try to connect and get detailed error info
-			$db->connect(); // محاولة اتصال
-	
-			if ($db->connID) {
-				echo "Database Connected ✔️<br>";
-				echo "Connection ID: " . ($db->connID ? 'Yes' : 'No') . "<br>";
-			} else {
-				echo "Database NOT Connected ❌<br>";
-				
-				// Get detailed error information - check if connID exists first
-				if (property_exists($db, 'connID') && $db->connID !== false) {
-					$error = $db->error();
-					if ($error && is_array($error)) {
-						echo "Error Code: " . ($error['code'] ?? 'N/A') . "<br>";
-						echo "Error Message: " . ($error['message'] ?? 'No error message') . "<br>";
-					}
-				} else {
-					echo "Connection failed - connID is false<br>";
-					
-					// Try to access the underlying mysqli connection if available
-					if (property_exists($db, 'mysqli') && is_object($db->mysqli)) {
-						$mysqli = $db->mysqli;
-						if ($mysqli->connect_error) {
-							echo "MySQLi Error: " . $mysqli->connect_error . "<br>";
-							echo "MySQLi Error No: " . $mysqli->connect_errno . "<br>";
-						}
-					}
-				}
-			}
-	
-		} catch (\Exception $e) {
-			echo "Exception: " . $e->getMessage() . "<br>";
-			echo "Error Code: " . $e->getCode() . "<br>";
-			echo "File: " . $e->getFile() . " Line: " . $e->getLine() . "<br>";
-			if ($e->getPrevious()) {
-				echo "Previous: " . $e->getPrevious()->getMessage() . "<br>";
-			}
-			echo "Stack Trace: <pre>" . $e->getTraceAsString() . "</pre>";
-		}
+		// try {
+		// 	$db = \Config\Database::connect();
+		// 	echo "Error: " . $e->getMessage();
+		// }
         
-		exit;
-
+				echo "Database Connected ✔️";
 // 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
-// 		$user = 'doadmin';
-// 		$pass = 'AVNS_grgEur-BkgLiRlRqB7O';
-// 		$db   = 'defaultdb';
-// 		$port = 25060;
+				echo "Database NOT Connected ❌";$port = 25060;
 
 // 		$mysqli = new \mysqli($host, $user, $pass, $db, $port);
 
-// 		if ($mysqli->connect_error) {
-// 			echo "Connect Error ({$mysqli->connect_errno}): {$mysqli->connect_error}";
-// 		} else {
-// 			echo "Connected OK - server_info: " . $mysqli->server_info;
-// 		}
-// //
+		//	echo "Error: " . $e->getMessage();/
 // 		exit;
 		// validate request
 		$rules = [
