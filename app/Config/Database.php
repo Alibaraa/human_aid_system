@@ -58,7 +58,7 @@ class Database extends Config
                 null,    // cert
                 $sslCertFile,  // CA
                 null,    // capath
-                null     // cipher
+               // null     // cipher
             );
             echo 'file is exist';
         }
