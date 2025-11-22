@@ -4,33 +4,66 @@ namespace Config;
 
 use CodeIgniter\Database\Config;
 
+/**
+ * Database Configuration
+ */
 class Database extends Config
 {
+    /**
+     * The directory that holds the Migrations
+     * and Seeds directories.
+     *
+     * @var string
+     */
+	 
     public $filesPath = APPPATH . 'Database' . DIRECTORY_SEPARATOR;
+
+    /**
+     * Lets you choose which connection group to
+     * use if no other is specified.
+     *
+     * @var string
+     */
     public $defaultGroup = 'default';
 
+    /**
+     * The default database connection.
+     *
+     * @var array
+     */
     public $default = [
-        'DSN'      => '',
-        'hostname' => '',
-        'username' => '',
-        'password' => '',
-        'database' => '',
-        'DBDriver' => 'MySQLi', // استخدم MySQLi
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8mb4',
-        'DBCollat' => 'utf8mb4_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => true, // مهم لتفعيل SSL
-        'failover' => [],
-        'port'     => '',
-        'options'  => [
-            MYSQLI_CLIENT_SSL => true,
-            MYSQLI_CLIENT_SSL_DONT_VERIFY_SERVER_CERT => false,
-        ],
+        DSN      => '',
+    'hostname' => 'your-db-host.doapp-db.digitalocean.com',  // from DO dashboard
+    'username' => 'doadmin',
+    'password' => 'your_very_long_password',
+    'database' => 'defaultdb',
+    'DBDriver' => 'MySQLi',        // or 'Postgre' if you use Postgres
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'DBDebug'  => true,
+    'charset'  => 'utf8mb4',
+    'DBCollat' => 'utf8mb4_general_ci',
+    'swapPre'  => '',
+    'encrypt'  => false,
+    'compress' => false,
+    'strictOn' => false,
+    'failover' => [],
+    'port'     => 25060,           // usually 25060 for MySQL, 25060 for Postgres too
+
+    // === THIS IS THE IMPORTANT PART FOR DIGITALOCEAN ===
+    'SSLEnable' => true,
+    'SSLKey'    => null,
+    'SSLCert'   => null,
+    'SSLCA'     => '/tmp/db-ca.crt',      // path inside the container
+    'SSLVerify' => true,
     ];
 
+    /**
+     * This database connection is used when
+     * running PHPUnit database tests.
+     *
+     * @var array
+     */
     public $tests = [
         'DSN'      => '',
         'hostname' => '127.0.0.1',
@@ -38,7 +71,7 @@ class Database extends Config
         'password' => '',
         'database' => ':memory:',
         'DBDriver' => 'SQLite3',
-        'DBPrefix' => 'db_',
+        'DBPrefix' => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),
         'charset'  => 'utf8',
@@ -55,16 +88,11 @@ class Database extends Config
     {
         parent::__construct();
 
+        // Ensure that we always set the database group to 'tests' if
+        // we are currently running an automated test suite, so that
+        // we don't overwrite live data on accident.
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
-            return;
         }
-
-        // جلب بيانات الاتصال من Environment
-        $this->default['hostname'] = getenv('database_default_hostname');
-        $this->default['username'] = getenv('database_default_username');
-        $this->default['password'] = getenv('database_default_password');
-        $this->default['database'] = getenv('database_default_database');
-        $this->default['port']     = getenv('database_default_port');
     }
 }
