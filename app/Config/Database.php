@@ -60,7 +60,7 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
-
+        //
         $caCertPath = '/tmp/db-ca.crt';
 
         if (file_exists($caCertPath)) {
