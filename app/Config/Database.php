@@ -28,7 +28,7 @@ class Database extends Config
         'DSN'      => '',
         'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
-        'password' => 'PUT_NEW_PASSWORD_HERE', // <--- UPDATE THIS AFTER RESETTING ON DIGITALOCEAN
+        'password' => 'AVNS_grgEur-BkgLiRlRqB7O', // <--- UPDATE THIS AFTER RESETTING ON DIGITALOCEAN
         'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
