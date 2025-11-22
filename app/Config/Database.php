@@ -12,57 +12,41 @@ class Database extends Config
     /**
      * The directory that holds the Migrations
      * and Seeds directories.
-     *
-     * @var string
      */
-	 
     public $filesPath = APPPATH . 'Database' . DIRECTORY_SEPARATOR;
 
     /**
      * Lets you choose which connection group to
      * use if no other is specified.
-     *
-     * @var string
      */
     public $defaultGroup = 'default';
 
     /**
      * The default database connection.
-     *
-     * @var array
      */
     public $default = [
-       'DSN'      => '',
-    'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',  // from DO dashboard
-    'username' => 'doadmin',
-    'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
-    'database' => 'defaultdb',
-    'DBDriver' => 'MySQLi',        // or 'Postgre' if you use Postgres
-    'DBPrefix' => '',
-    'pConnect' => false,
-    'DBDebug'  => true,
-    'charset'  => 'utf8mb4',
-    'DBCollat' => 'utf8mb4_general_ci',
-    'swapPre'  => '',
-    'encrypt'  => false,
-    'compress' => false,
-    'strictOn' => false,
-    'failover' => [],
-    'port'     => 25060,           // usually 25060 for MySQL, 25060 for Postgres too
-    // 'encrypt' => false
-    // === THIS IS THE IMPORTANT PART FOR DIGITALOCEAN ===
-    // 'SSLEnable' => true,
-    // 'SSLKey'    => null,
-    // 'SSLCert'   => null,
-    // 'SSLCA'     => '/tmp/db-ca.crt',      // path inside the container
-    // 'SSLVerify' => true,
+        'DSN'      => '',
+        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+        'username' => 'doadmin',
+        'password' => 'PUT_NEW_PASSWORD_HERE', // <--- UPDATE THIS AFTER RESETTING ON DIGITALOCEAN
+        'database' => 'defaultdb',
+        'DBDriver' => 'MySQLi',
+        'DBPrefix' => '',
+        'pConnect' => false,
+        'DBDebug'  => true,
+        'charset'  => 'utf8mb4',
+        'DBCollat' => 'utf8mb4_general_ci',
+        'swapPre'  => '',
+        'encrypt'  => false, // Overwritten in __construct
+        'compress' => false,
+        'strictOn' => false,
+        'failover' => [],
+        'port'     => 25060,
     ];
 
     /**
      * This database connection is used when
      * running PHPUnit database tests.
-     *
-     * @var array
      */
     public $tests = [
         'DSN'      => '',
@@ -71,7 +55,7 @@ class Database extends Config
         'password' => '',
         'database' => ':memory:',
         'DBDriver' => 'SQLite3',
-        'DBPrefix' => 'db_',  // Needed to ensure we're working correctly with prefixes live. DO NOT REMOVE FOR CI DEVS
+        'DBPrefix' => 'db_',
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),
         'charset'  => 'utf8',
@@ -87,7 +71,6 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
-         
 
         $caCertPath = '/tmp/db-ca.crt';
 
@@ -97,12 +80,13 @@ class Database extends Config
                 'ssl_cert'   => NULL,
                 'ssl_ca'     => $caCertPath,
                 'ssl_capath' => NULL,
-                'ssl_cipher' => NULL
+                'ssl_cipher' => NULL,
+                // This is the line that likely fixes the difference 
+                // between your raw script and CodeIgniter:
+                'ssl_verify' => false 
             ];
         }
-        // Ensure that we always set the database group to 'tests' if
-        // we are currently running an automated test suite, so that
-        // we don't overwrite live data on accident.
+
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
