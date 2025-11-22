@@ -72,22 +72,34 @@ class Database extends Config
     {
         parent::__construct();
 
-        // 1. محاولة جلب البيانات من DATABASE_URL (من DigitalOcean)
+        // 1. محاولة قراءة الرابط الشامل
         $dbUrl = getenv('DATABASE_URL');
 
-        if (!empty($dbUrl)) {
+        // 2. تحليل الرابط إذا كان موجوداً
+        if (!empty($dbUrl) && filter_var($dbUrl, FILTER_VALIDATE_URL)) {
             $parsed = parse_url($dbUrl);
+
             if ($parsed) {
-                // إذا وجدنا بيانات في البيئة، نستخدمها لتحديث الإعدادات
                 $this->default['hostname'] = $parsed['host'] ?? $this->default['hostname'];
                 $this->default['username'] = $parsed['user'] ?? $this->default['username'];
                 $this->default['password'] = $parsed['pass'] ?? $this->default['password'];
-                $this->default['database'] = ltrim($parsed['path'] ?? 'defaultdb', '/');
                 $this->default['port']     = $parsed['port'] ?? 25060;
+                
+                // --- إصلاح الخطأ هنا ---
+                // نتأكد من اسم قاعدة البيانات، إذا كان يحتوي على $ (متغير خاطئ) نستخدم defaultdb
+                $dbName = ltrim($parsed['path'] ?? '', '/');
+                if (empty($dbName) || strpos($dbName, '$') !== false) {
+                    $this->default['database'] = 'defaultdb';
+                } else {
+                    $this->default['database'] = $dbName;
+                }
             }
+        } else {
+            // إذا لم يوجد رابط، نستخدم القيمة الافتراضية لـ DO
+            $this->default['database'] = 'defaultdb';
         }
 
-        // 2. إعدادات SSL الضرورية (CA Certificate)
+        // 3. تفعيل SSL (ضروري جداً)
         $caCertPath = '/tmp/db-ca.crt';
 
         if (file_exists($caCertPath)) {
@@ -97,11 +109,16 @@ class Database extends Config
                 'ssl_ca'     => $caCertPath,
                 'ssl_capath' => NULL,
                 'ssl_cipher' => NULL,
-                'ssl_verify' => false // هام جداً لتجنب مشاكل تطابق الاسم
+                'ssl_verify' => false 
             ];
         }
+        
+        // 4. تأكد من عدم وجود قيم فارغة تسبب مشاكل
+        // إذا كان الباسوورد فارغاً، حاول جلبه من متغيرات البيئة القديمة كخيار أخير
+        if (empty($this->default['password'])) {
+             $this->default['password'] = getenv('database_default_password');
+        }
 
-        // 3. ضمان بيئة الاختبار
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
