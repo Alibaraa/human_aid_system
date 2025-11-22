@@ -13,7 +13,7 @@ class Database extends Config
     public $defaultGroup = 'default';
 
     public $default = [
-        'DSN'      => 'mysql://doadmin:AVNS_grgEur-BkgLiRlRqB7O@db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED',
+        'DSN'      => 'mysqlه://doadmin:AVNS_grgEur-BkgLiRlRqB7O@db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED',
         // 'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         // 'username' => 'doadmin',
         
