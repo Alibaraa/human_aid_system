@@ -26,10 +26,10 @@ class Database extends Config
      */
     public $default = [
         'DSN'      => '',
-        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
-        'username' => 'doadmin',
-        'password' => 'AVNS_grgEur-BkgLiRlRqB7O', // <--- UPDATE THIS AFTER RESETTING ON DIGITALOCEAN
-        'database' => 'defaultdb',
+        'hostname' => 'localhost',
+        'username' => '',
+        'password' => '',
+        'database' => '',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
@@ -37,11 +37,11 @@ class Database extends Config
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt'  => false, // Overwritten in __construct
+        'encrypt'  => false,
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
-        'port'     => 25060,
+        'port'     => 3306,
     ];
 
     /**
@@ -72,8 +72,40 @@ class Database extends Config
     {
         parent::__construct();
 
+        // ----------------------------------------------------------
+        // 1. DETECT DIGITALOCEAN 'DATABASE_URL'
+        // ----------------------------------------------------------
+        // DigitalOcean App Platform provides a single long URL string:
+        // mysql://user:password@host:port/database
+        $dbUrl = getenv('DATABASE_URL');
+
+        if (!empty($dbUrl)) {
+            $parsed = parse_url($dbUrl);
+
+            if ($parsed) {
+                $this->default['hostname'] = $parsed['host'] ?? $this->default['hostname'];
+                $this->default['username'] = $parsed['user'] ?? $this->default['username'];
+                $this->default['password'] = $parsed['pass'] ?? $this->default['password'];
+                $this->default['database'] = ltrim($parsed['path'] ?? 'defaultdb', '/');
+                $this->default['port']     = $parsed['port'] ?? 25060;
+            }
+        } 
+        // ----------------------------------------------------------
+        // 2. FALLBACK: Check for Individual ENV Variables
+        // ----------------------------------------------------------
+        // If DATABASE_URL wasn't found, check if manually set vars exist
+        else {
+            $this->default['hostname'] = getenv('database_default_hostname') ?: $this->default['hostname'];
+            $this->default['username'] = getenv('database_default_username') ?: $this->default['username'];
+            $this->default['password'] = getenv('database_default_password') ?: $this->default['password'];
+        }
+
+        // ----------------------------------------------------------
+        // 3. SSL CONFIGURATION (Crucial for Managed DBs)
+        // ----------------------------------------------------------
         $caCertPath = '/tmp/db-ca.crt';
 
+        // If we found the cert file, we enable SSL
         if (file_exists($caCertPath)) {
             $this->default['encrypt'] = [
                 'ssl_key'    => NULL,
@@ -81,12 +113,13 @@ class Database extends Config
                 'ssl_ca'     => $caCertPath,
                 'ssl_capath' => NULL,
                 'ssl_cipher' => NULL,
-                // This is the line that likely fixes the difference 
-                // between your raw script and CodeIgniter:
-                'ssl_verify' => false 
+                'ssl_verify' => false // Keep this false to prevent hostname mismatch errors
             ];
         }
 
+        // ----------------------------------------------------------
+        // 4. TESTING ENVIRONMENT OVERRIDE
+        // ----------------------------------------------------------
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         }
