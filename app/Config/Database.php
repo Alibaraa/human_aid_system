@@ -32,7 +32,7 @@ class Database extends Config
      * @var array
      */
     public $default = [
-        DSN      => '',
+       'DSN'      => '',
     'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',  // from DO dashboard
     'username' => 'doadmin',
     'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
