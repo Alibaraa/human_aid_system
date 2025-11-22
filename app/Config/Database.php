@@ -3,7 +3,6 @@
 namespace Config;
 
 use CodeIgniter\Database\Config;
-use PDO;
 
 class Database extends Config
 {
@@ -16,37 +15,17 @@ class Database extends Config
         'username' => '',
         'password' => '',
         'database' => '',
-        'DBDriver' => 'PDO', // استخدم PDO بدل MySQLi
+        'DBDriver' => 'MySQLi', // استخدم MySQLi الطبيعي
         'DBPrefix' => '',
         'pConnect' => false,
         'DBDebug'  => (ENVIRONMENT !== 'production'),
         'charset'  => 'utf8mb4',
         'DBCollat' => 'utf8mb4_general_ci',
         'swapPre'  => '',
-        'encrypt'  => true,
+        'encrypt'  => false, // نستخدم SSL عبر mysqli_ssl_set
         'failover' => [],
         'port'     => '',
-        'options'  => [], // سيتم إعدادها في الـ constructor
-    ];
-
-    public $tests = [
-        'DSN'      => '',
-        'hostname' => '127.0.0.1',
-        'username' => '',
-        'password' => '',
-        'database' => ':memory:',
-        'DBDriver' => 'SQLite3',
-        'DBPrefix' => 'db_',
-        'pConnect' => false,
-        'DBDebug'  => (ENVIRONMENT !== 'production'),
-        'charset'  => 'utf8',
-        'DBCollat' => 'utf8_general_ci',
-        'swapPre'  => '',
-        'encrypt'  => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port'     => 3306,
+        'options'  => [],
     ];
 
     public function __construct()
@@ -71,13 +50,17 @@ class Database extends Config
         $this->default['database'] = $database;
         $this->default['port']     = $port;
 
-        // إعداد DSN لـ PDO
-        $this->default['DSN'] = "mysql:host={$hostname};port={$port};dbname={$database};charset=utf8mb4";
-
-        // إعداد خيارات PDO SSL
-        $this->default['options'] = [
-            PDO::MYSQL_ATTR_SSL_CA => '/tmp/db-ca.crt',   // DigitalOcean يكتب الملف تلقائيًا
-            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
-        ];
+        // إعدادات SSL
+        $sslCertFile = '/tmp/db-ca.crt';
+        if (file_exists($sslCertFile)) {
+            mysqli_ssl_set(
+                null,    // key
+                null,    // cert
+                $sslCertFile,  // CA
+                null,    // capath
+                null     // cipher
+            );
+            echo 'file is exist';
+        }
     }
 }
