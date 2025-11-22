@@ -54,19 +54,20 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
-		// try {
-		// 	$db = \Config\Database::connect();
-		// 	echo "Error: " . $e->getMessage();
-		// }
-        
+		try {
+			$db = \Config\Database::connect();
+			$db->connect(); // محاولة اتصال
+	
+			if ($db->connID) {
 				echo "Database Connected ✔️";
-// 		$host = 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com';
-				echo "Database NOT Connected ❌";$port = 25060;
-
-// 		$mysqli = new \mysqli($host, $user, $pass, $db, $port);
-
-		//	echo "Error: " . $e->getMessage();/
-// 		exit;
+			} else {
+				echo "Database NOT Connected ❌";
+			}
+	
+		} catch (\Exception $e) {
+			echo "Error: " . $e->getMessage();
+		}
+		exit;
 		// validate request
 		$rules = [
 			'email'		=> 'required|valid_email',
