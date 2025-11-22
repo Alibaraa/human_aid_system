@@ -54,20 +54,20 @@ class LoginController extends Controller
 	 */
 	public function attemptLogin()
 	{
-		try {
-			$db = \Config\Database::connect();
-			$db->connect(); // محاولة اتصال
+		// try {
+		// 	$db = \Config\Database::connect();
+		// 	$db->connect(); // محاولة اتصال
 	
-			if ($db->connID) {
-				echo "Database Connected ✔️";
-			} else {
-				echo "Database NOT Connected ❌";
-			}
+		// 	if ($db->connID) {
+		// 		echo "Database Connected ✔️";
+		// 	} else {
+		// 		echo "Database NOT Connected ❌";
+		// 	}
 	
-		} catch (\Exception $e) {
-			echo "Error: " . $e->getMessage();
-		}
-		exit;
+		// } catch (\Exception $e) {
+		// 	echo "Error: " . $e->getMessage();
+		// }
+		// exit;
 		// validate request
 		$rules = [
 			'email'		=> 'required|valid_email',

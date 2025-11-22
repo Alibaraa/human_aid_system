@@ -13,19 +13,16 @@ class Database extends Config
     public $defaultGroup = 'default';
 
     public $default = [
-        'DSN'      => 'mysqli://doadmin:AVNS_grgEur-BkgLiRlRqB7O@db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com:25060/defaultdb?ssl-mode=REQUIRED',
-        // 'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
-        // 'username' => 'doadmin',
+        'DSN'      => '',
+        'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
+        'username' => 'doadmin',
         
-        // // -------------------------------------------------------
-        // // ضع كلمة المرور الجديدة هنا
-        // // -------------------------------------------------------
-        // 'password' => 'AVNS_grgEur-BkgLiRlRqB7O', 
-        'hostname' => '', // اتركها فارغة لأنها موجودة في DSN
-        'username' => '', // اتركها فارغة
-        'password' => '', // اتركها فارغة
-        'database' => '', // اتركها فارغة
-        // 'database' => 'defaultdb',
+        // -------------------------------------------------------
+        // ضع كلمة المرور الجديدة هنا
+        // -------------------------------------------------------
+        'password' => 'AVNS_grgEur-BkgLiRlRqB7O', 
+        
+        'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,
