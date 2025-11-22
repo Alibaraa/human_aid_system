@@ -32,13 +32,14 @@ class Database extends Config
     /**
      * @var array
      */
-
-     //echo WRITEABLEPATH;
+     
+     //echo WRITEPATH;
      public $default = [
         'DSN'      => '',
+        // It is better to use env() so you don't hardcode credentials
         'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
-        'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
+        'password' => 'YOUR_NEW_PASSWORD_HERE', // Update this after changing it in DO
         'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
@@ -47,15 +48,11 @@ class Database extends Config
         'charset'  => 'utf8',
         'DBCollat' => 'utf8_general_ci',
         'swapPre'  => '',
-        'encrypt'  => [
-            'ssl_ca'     => APPPATH . 'Database/ca-certificate.crt',
-            'ssl_verify' => true,
-            'ssl_cipher' => '',
-        ],
+        'encrypt'  => false, // Default to false, enable below if cert exists
         'compress' => false,
         'strictOn' => false,
         'failover' => [],
-        'port'     => 25060,
+        'port'     => 25060, // This is correct for DigitalOcean
     ];
     /**
      * This database connection is used when
@@ -86,6 +83,16 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+
+     
+        $caCertPath = '/tmp/db-ca.crt';
+
+    if (file_exists($caCertPath)) {
+        $this->default['encrypt'] = [
+            'ssl_ca'     => $caCertPath,
+            'ssl_verify' => true,
+        ];
+    }
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
