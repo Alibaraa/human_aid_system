@@ -91,13 +91,15 @@ class Database extends Config
 
         $caCertPath = '/tmp/db-ca.crt';
 
-    if (file_exists($caCertPath)) {
-        $this->default['encrypt'] = [
-            'ssl_ca'     => $caCertPath,
-            'ssl_verify' => true, // Verify the server certificate
-        ];
-        echo 'file exist';
-    }
+        if (file_exists($caCertPath)) {
+            $this->default['encrypt'] = [
+                'ssl_key'    => NULL,
+                'ssl_cert'   => NULL,
+                'ssl_ca'     => $caCertPath,
+                'ssl_capath' => NULL,
+                'ssl_cipher' => NULL
+            ];
+        }
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
