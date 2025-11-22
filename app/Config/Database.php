@@ -87,12 +87,21 @@ class Database extends Config
      
         $caCertPath = '/tmp/db-ca.crt';
 
-    if (file_exists($caCertPath)) {
-        $this->default['encrypt'] = [
-            'ssl_ca'     => $caCertPath,
-            'ssl_verify' => true,
-        ];
-    }
+        if (file_exists('/tmp/db-ca.crt')) {
+         echo 'file exist';
+            $this->default['encrypt'] = [
+                'ssl_ca'     => '/tmp/db-ca.crt',
+                'ssl_verify' => true,
+            ];
+        } 
+        // 2. Fallback: Check for a local file (Local Development)
+        elseif (file_exists(WRITEPATH . 'Database/ca-certificate.crt')) {
+            echo 'file not exist'; 
+            $this->default['encrypt'] = [
+                'ssl_ca'     => WRITEPATH . 'Database/ca-certificate.crt',
+                'ssl_verify' => true,
+            ];
+        }
 
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
