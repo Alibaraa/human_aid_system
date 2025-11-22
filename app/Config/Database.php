@@ -39,7 +39,7 @@ class Database extends Config
         // It is better to use env() so you don't hardcode credentials
         'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',
         'username' => 'doadmin',
-        'password' => 'YOUR_NEW_PASSWORD_HERE', // Update this after changing it in DO
+        'password' => 'AVNS_grgEur-BkgLiRlRqB7O', // Update this after changing it in DO
         'database' => 'defaultdb',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
