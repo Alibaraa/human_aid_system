@@ -49,13 +49,13 @@ class Database extends Config
     'strictOn' => false,
     'failover' => [],
     'port'     => 25060,           // usually 25060 for MySQL, 25060 for Postgres too
-
+    // 'encrypt' => false
     // === THIS IS THE IMPORTANT PART FOR DIGITALOCEAN ===
-    'SSLEnable' => true,
-    'SSLKey'    => null,
-    'SSLCert'   => null,
-    'SSLCA'     => '/tmp/db-ca.crt',      // path inside the container
-    'SSLVerify' => true,
+    // 'SSLEnable' => true,
+    // 'SSLKey'    => null,
+    // 'SSLCert'   => null,
+    // 'SSLCA'     => '/tmp/db-ca.crt',      // path inside the container
+    // 'SSLVerify' => true,
     ];
 
     /**
@@ -87,7 +87,17 @@ class Database extends Config
     public function __construct()
     {
         parent::__construct();
+         
 
+        $caCertPath = '/tmp/db-ca.crt';
+
+    if (file_exists($caCertPath)) {
+        $this->default['encrypt'] = [
+            'ssl_ca'     => $caCertPath,
+            'ssl_verify' => true, // Verify the server certificate
+        ];
+        echo 'file exist';
+    }
         // Ensure that we always set the database group to 'tests' if
         // we are currently running an automated test suite, so that
         // we don't overwrite live data on accident.
