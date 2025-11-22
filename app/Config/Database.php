@@ -33,9 +33,9 @@ class Database extends Config
      */
     public $default = [
         DSN      => '',
-    'hostname' => 'your-db-host.doapp-db.digitalocean.com',  // from DO dashboard
+    'hostname' => 'db-mysql-sfo3-22518-do-user-28239552-0.f.db.ondigitalocean.com',  // from DO dashboard
     'username' => 'doadmin',
-    'password' => 'your_very_long_password',
+    'password' => 'AVNS_grgEur-BkgLiRlRqB7O',
     'database' => 'defaultdb',
     'DBDriver' => 'MySQLi',        // or 'Postgre' if you use Postgres
     'DBPrefix' => '',
