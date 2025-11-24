@@ -70,7 +70,8 @@ class Database extends Config
                 'ssl_cert'   => NULL,
                 'ssl_ca'     => $caCertPath,
                 'ssl_capath' => NULL,
-                'ssl_cipher' => NULL
+                'ssl_cipher' => NULL,
+                'ssl_verify' => TRUE
                 // قمنا بحذف ssl_verify لأن السكربت الناجح لم يستخدمها
             ];
         }
